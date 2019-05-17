@@ -19,6 +19,19 @@ cn_matriz__is_quadrada(struct cn_matriz *this) {
 }
 
 int
+cn_matriz__is_simetrica(struct cn_matriz *this) {
+    if (!cn_matriz__is_quadrada(this))
+        return 0;
+    int i, j;
+    for (i = 0; i < this->tam_i; i++)
+        for (j = 0; j < this->tam_i; j++) {
+            if (!cn_fracao__cmp(this->vet[i*this->tam_i + j], this->vet[j*this->tam_i + i]))
+                return 0;
+        }
+    return 1;
+}
+
+int
 cn_matriz__get_determinante(struct cn_matriz *this, struct cn_fracao *res) {
     if (!cn_matriz__is_quadrada(this))
         return ERROR;

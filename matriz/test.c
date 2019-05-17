@@ -2,6 +2,24 @@
 #include "./template.c"
 #include <assert.h>
 
+void simetria() {
+    struct cn_matriz mtx;
+    cn_matriz__init(&mtx, 1,1); // Primeira ordem, garantida
+    cn_matriz__set(&mtx, 0,0, cn_fracao__init(11,3));
+    assert(cn_matriz__is_simetrica(&mtx));
+    cn_matriz__destroy(&mtx);
+    cn_matriz__init(&mtx, 1, 2); // Nem vou preencher, a ideia é reprovar mesmo :v
+    assert(!cn_matriz__is_simetrica(&mtx));
+    cn_matriz__destroy(&mtx);
+    cn_matriz__init(&mtx, 2,2); // Por padrão é tudo zero, então é simétrica
+    assert(cn_matriz__is_simetrica(&mtx));
+    cn_matriz__destroy(&mtx);
+    cn_matriz__init(&mtx, 2,2);
+    cn_matriz__set(&mtx, 1,0, cn_fracao__init(3,2)); // Colocar um valor nada a ver pra reprovar mesmo
+    assert(!cn_matriz__is_simetrica(&mtx));
+    cn_matriz__destroy(&mtx);
+}
+
 void multest() {
     struct cn_matriz ma;
     cn_matriz__init(&ma, 2, 2);
@@ -71,5 +89,6 @@ int main() {
     cn_matriz__destroy(&mb);
     multest();
     determinante();
+    simetria();
 }
 

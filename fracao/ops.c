@@ -67,7 +67,8 @@ cn_fracao__cmp(
         struct cn_fracao a,
         struct cn_fracao b
 ) {
-    return a.numerador == b.numerador && a.denominador == b.denominador;
+    struct cn_fracao div = cn_fracao__div(a,b);
+    return div.denominador == div.numerador;
 }
 
 
