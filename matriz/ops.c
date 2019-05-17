@@ -80,6 +80,20 @@ cn_matriz__get_determinante(struct cn_matriz *this, struct cn_fracao *res) {
 }
 
 int
+cn_matriz__get_menor_principal(struct cn_matriz *this, struct cn_matriz *ret, int ordem) {
+    if (!cn_matriz__is_quadrada(this))
+        return ERROR;
+    if (cn_matriz__init(ret, ordem, ordem) == ERROR)
+        return ERROR;
+    int i, j;
+    for (i = 0; i < ordem; i++)
+        for (j = 0; j < ordem; j++) {
+            ret->vet[i*ordem + j] = this->vet[i*this->tam_i + j];
+        }
+    return SUCESS;
+}
+
+int
 cn_matriz__is_same_shape(
     struct cn_matriz *this,
     struct cn_matriz *that

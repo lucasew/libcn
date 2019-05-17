@@ -2,6 +2,28 @@
 #include "./template.c"
 #include <assert.h>
 
+void menor_principal() {
+    struct cn_matriz mtx;
+    struct cn_matriz res;
+    cn_matriz__init(&mtx, 3, 3);
+    cn_matriz__set(&mtx, 0, 0, cn_fracao__init(2, 1));
+    cn_matriz__set(&mtx, 0, 1, cn_fracao__init(3, 1));
+    cn_matriz__set(&mtx, 0, 2, cn_fracao__init(5, 1));
+    cn_matriz__set(&mtx, 1, 0, cn_fracao__init(8, 1));
+    cn_matriz__set(&mtx, 1, 1, cn_fracao__init(6, 1));
+    cn_matriz__set(&mtx, 1, 2, cn_fracao__init(-1, 1));
+    cn_matriz__set(&mtx, 2, 0, cn_fracao__init(3, 1));
+    cn_matriz__set(&mtx, 2, 1, cn_fracao__init(-5, 1));
+    cn_matriz__set(&mtx, 2, 2, cn_fracao__init(4, 1));
+    cn_matriz__get_menor_principal(&mtx, &res, 1); // Menor principal 1
+    assert(res.tam_i == 1 && res.tam_j == 1);
+    assert(cn_fracao__cmp(res.vet[0], cn_fracao__init(2,1)));
+    cn_matriz__destroy(&res);
+    cn_matriz__get_menor_principal(&mtx, &res, 2); // Menor principal 2
+    assert(cn_fracao__cmp(res.vet[2], cn_fracao__init(8,1)));
+    cn_matriz__destroy(&res);
+}
+
 void simetria() {
     struct cn_matriz mtx;
     cn_matriz__init(&mtx, 1,1); // Primeira ordem, garantida
@@ -90,5 +112,5 @@ int main() {
     multest();
     determinante();
     simetria();
+    menor_principal();
 }
-
