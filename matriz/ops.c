@@ -1,7 +1,6 @@
 #ifndef CN_MATRIZ_OPS
 #define CN_MATRIZ_OPS
 #include "../status.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include "../fracao/struct.c"
 #include "../fracao/ops.c"
@@ -12,6 +11,59 @@ cn_matriz__check_bound(struct cn_matriz *this, int i, int j) {
     return i > this->tam_i || j > this->tam_j
         ? ERROR
         : SUCESS;
+}
+
+int
+cn_matriz__is_quadrada(struct cn_matriz *this) {
+    return this->tam_i == this->tam_j;
+}
+
+int
+cn_matriz__get_determinante(struct cn_matriz *this, struct cn_fracao *res) {
+    if (!cn_matriz__is_quadrada(this))
+        return ERROR;
+    if (this->tam_i == 1) { // Não preciso verificar os dois por que ambos são iguais
+        *res = this->vet[0];
+        return SUCESS;
+    }
+    if (this->tam_i == 2) {
+        *res = 
+            cn_fracao__sub(
+                cn_fracao__mul(this->vet[0], this->vet[3]),
+                cn_fracao__mul(this->vet[1], this->vet[2])
+            );
+        return SUCESS;
+    }
+    if (this->tam_i == 3) { // Fazendo a conta do determinante na mão
+        // TODO: Melhorar um pouco isso ai
+#define fmul(a, b) cn_fracao__mul(a, b)
+#define fsum(a, b) cn_fracao__sum(a, b)
+#define fsub(a, b) cn_fracao__sub(a, b)
+#define idx(i, j) this->vet[i*3 + j]
+        *res = fsub(
+                    fsum( // valores da diagonal principal, os que somam
+                        fmul(idx(0, 0), fmul(idx(1,1), idx(2,2))),
+                        fsum(
+                                fmul(idx(0, 1), fmul(idx(1,2), idx(2, 0))),
+                                fmul(idx(0, 2), fmul(idx(1,0), idx(2, 1)))
+                            )
+                        ),
+                    fsum( // valores da diagonal secundária, os que subtraem
+                        fmul(idx(0,2),fmul(idx(1,1), idx(2,0))),
+                        fsum(
+                                fmul(idx(0,0), fmul(idx(1,2), idx(2, 1))),
+                                fmul(idx(0,1), fmul(idx(1,0), idx(2,2)))
+                            )
+                        )
+                );
+// evitar conflitos
+#undef  fmul
+#undef  fsum
+#undef  fsub
+#undef  idx
+        return SUCESS;
+    }
+    return ERROR;
 }
 
 int

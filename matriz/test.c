@@ -12,13 +12,48 @@ void multest() {
     struct cn_matriz mb;
     cn_matriz__init(&mb, 2, 2);
     cn_matriz__set(&mb, 0, 0, cn_fracao__init(-1, 1));
-    cn_matriz__set(&mb, 0, 1, cn_fracao__init(3, 1));
-    cn_matriz__set(&mb, 1, 0, cn_fracao__init(4, 1));
+    cn_matriz__set(&mb, 1, 0, cn_fracao__init(3, 1));
+    cn_matriz__set(&mb, 0, 1, cn_fracao__init(4, 1));
     cn_matriz__set(&mb, 1, 1, cn_fracao__init(2, 1));
     cn_matriz__prettyprint(&mb);
     struct cn_matriz mc;
     cn_matriz__mul(&ma, &mb, &mc);
     cn_matriz__prettyprint(&mc);
+}
+
+void determinante() {
+    struct cn_matriz mtx;
+    struct cn_fracao res;
+    // ordem 1
+    cn_matriz__init(&mtx, 1,1);
+    cn_matriz__set(&mtx, 0, 0, cn_fracao__init(2, 1));
+    assert(cn_matriz__get_determinante(&mtx, &res) == SUCESS);
+    assert(res.numerador == 2);
+    cn_matriz__destroy(&mtx);
+    // ordem 2
+    cn_matriz__init(&mtx, 2,2);
+    cn_matriz__set(&mtx, 0, 0, cn_fracao__init(1,1));
+    cn_matriz__set(&mtx, 1, 0, cn_fracao__init(5,1));
+    cn_matriz__set(&mtx, 0, 1, cn_fracao__init(3,1));
+    cn_matriz__set(&mtx, 1, 1, cn_fracao__init(4,1));
+    assert(cn_matriz__get_determinante(&mtx, &res) == SUCESS);
+    assert(res.numerador == -11);
+    cn_matriz__destroy(&mtx);
+    // ordem 3
+    cn_matriz__init(&mtx, 3, 3);
+    cn_matriz__set(&mtx, 0, 0, cn_fracao__init(2, 1));
+    cn_matriz__set(&mtx, 0, 1, cn_fracao__init(3, 1));
+    cn_matriz__set(&mtx, 0, 2, cn_fracao__init(5, 1));
+    cn_matriz__set(&mtx, 1, 0, cn_fracao__init(8, 1));
+    cn_matriz__set(&mtx, 1, 1, cn_fracao__init(6, 1));
+    cn_matriz__set(&mtx, 1, 2, cn_fracao__init(-1, 1));
+    cn_matriz__set(&mtx, 2, 0, cn_fracao__init(3, 1));
+    cn_matriz__set(&mtx, 2, 1, cn_fracao__init(-5, 1));
+    cn_matriz__set(&mtx, 2, 2, cn_fracao__init(4, 1));
+    cn_matriz__prettyprint(&mtx);
+    assert(cn_matriz__get_determinante(&mtx, &res) == SUCESS);
+    assert(res.numerador == -357);
+    cn_matriz__destroy(&mtx);
 }
 
 int main() {
@@ -35,5 +70,6 @@ int main() {
     cn_matriz__destroy(&ma);
     cn_matriz__destroy(&mb);
     multest();
+    determinante();
 }
 

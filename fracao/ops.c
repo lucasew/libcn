@@ -1,5 +1,6 @@
 #ifndef CN_FRACAO_OPS
 #define CN_FRACAO_OPS
+#include <stdio.h>
 #include "./struct.c"
 
 struct cn_fracao 
