@@ -1,11 +1,10 @@
 #ifndef CN_MATRIZ_STRUCT
 #define CN_MATRIZ_STRUCT
 #include <stdlib.h>
-#include "../fracao/struct.c"
 #include "../status.h"
 
 struct cn_matriz {
-    struct cn_fracao *vet;
+    double *vet;
     int tam_i;
     int tam_j;
 };
@@ -17,14 +16,9 @@ cn_matriz__init(
 ) {
     this->tam_i = tam_i;
     this->tam_j = tam_j;
-    this->vet = calloc(tam_i*tam_j, sizeof(struct cn_fracao));
+    this->vet = calloc(tam_i*tam_j, sizeof(double));
     if (this->vet == NULL) {
         return ERROR;
-    }
-    int i;
-    struct cn_fracao template = {0, 1};
-    for (i = 0; i < this->tam_i*this->tam_j; i++) {
-        this->vet[i] = template;
     }
     return SUCESS;
 }

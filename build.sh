@@ -11,7 +11,7 @@ function test_module() {
 }
 case $1 in
     test)
-        test_module fracao
+        test_module cholesky
         test_module matriz
         ;;
 esac

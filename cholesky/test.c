@@ -7,15 +7,15 @@
 void teste_de_algum_slide() {
     struct cn_matriz mtx;
     cn_matriz__init(&mtx, 3,3);
-    cn_matriz__set(&mtx, 0, 0, cn_fracao__init(4, 1));
-    cn_matriz__set(&mtx, 1, 0, cn_fracao__init(2, 1));
-    cn_matriz__set(&mtx, 2, 0, cn_fracao__init(-4, 1));
-    cn_matriz__set(&mtx, 0, 1, cn_fracao__init(2, 1));
-    cn_matriz__set(&mtx, 1, 1, cn_fracao__init(10, 1));
-    cn_matriz__set(&mtx, 2, 1, cn_fracao__init(4, 1));
-    cn_matriz__set(&mtx, 0, 2, cn_fracao__init(-4, 1));
-    cn_matriz__set(&mtx, 1, 2, cn_fracao__init(4, 1));
-    cn_matriz__set(&mtx, 2, 2, cn_fracao__init(9, 1));
+    cn_matriz__set(&mtx, 0, 0, 4);
+    cn_matriz__set(&mtx, 1, 0, 2);
+    cn_matriz__set(&mtx, 2, 0, -4);
+    cn_matriz__set(&mtx, 0, 1, 2);
+    cn_matriz__set(&mtx, 1, 1, 10);
+    cn_matriz__set(&mtx, 2, 1, 4);
+    cn_matriz__set(&mtx, 0, 2, -4);
+    cn_matriz__set(&mtx, 1, 2, 4);
+    cn_matriz__set(&mtx, 2, 2, 9);
     assert(cn_cholesky__check(&mtx));
     struct cn_matriz res;
     assert(cn_cholesky__calc(&mtx, &res) == SUCESS);
