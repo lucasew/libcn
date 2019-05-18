@@ -31,7 +31,10 @@ cn_matriz__init(
 
 int
 cn_matriz__destroy(struct cn_matriz *this) {
-    free(this->vet);
+    free(this->vet); // Pode ser NULL, não faz mal
+    this->vet = NULL;
+    this->tam_i = 0;
+    this->tam_j = 0;
     return SUCESS;
 }
 

@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include "./struct.c"
 
+double
+cn_fracao__as_double(struct cn_fracao this) {
+    return (double)this.numerador / (double)this.denominador;
+}
+
 struct cn_fracao 
 cn_fracao__sum(
         struct cn_fracao a,
@@ -13,7 +18,7 @@ cn_fracao__sum(
         ? a.denominador
         : a.denominador * b.denominador;
     int numa = a.numerador * (res.denominador / a.denominador);
-    int numb = b.numerador * (res.denominador /b.denominador);
+    int numb = b.numerador * (res.denominador / b.denominador);
     res.numerador = numa + numb;
     return res;
 }

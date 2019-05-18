@@ -13,4 +13,8 @@ struct cn_fracao cn_fracao__init(int num, int den) {
     return fr;
 }
 
+struct cn_fracao cn_fracao__zero() {
+    return cn_fracao__init(0, 1);
+}
+
 #endif
