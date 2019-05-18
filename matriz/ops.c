@@ -7,6 +7,20 @@
 #include "./struct.c"
 
 int
+cn_matriz__transpose(
+        struct cn_matriz *from, 
+        struct cn_matriz *to
+) {
+    cn_matriz__init(to, from->tam_j, from->tam_i);
+    int i, j;
+    for (i = 0; i < from->tam_i; i++)
+        for (j = 0; j < from->tam_j; j++) {
+            to->vet[j*to->tam_i + i] = from->vet[i*from->tam_i + j];
+        }
+    return SUCESS;
+}
+
+int
 cn_matriz__check_bound(struct cn_matriz *this, int i, int j) {
     return i > this->tam_i || j > this->tam_j
         ? ERROR

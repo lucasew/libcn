@@ -2,6 +2,24 @@
 #include "./template.c"
 #include <assert.h>
 
+void transposta() {
+    struct cn_matriz mtx;
+    cn_matriz__init(&mtx, 2,2);
+    cn_matriz__set(&mtx, 0, 0, cn_fracao__init(-1, 1));
+    cn_matriz__set(&mtx, 0, 1, cn_fracao__init(8, 1));
+    cn_matriz__set(&mtx, 1, 0, cn_fracao__init(2, 1));
+    cn_matriz__set(&mtx, 1, 1, cn_fracao__init(5, 1));
+    struct cn_matriz res;
+    cn_matriz__transpose(&mtx, &res);
+    cn_matriz__prettyprint(&res);
+    assert(res.vet[0].numerador == -1);
+    assert(res.vet[1].numerador == 2);
+    assert(res.vet[2].numerador == 8);
+    assert(res.vet[3].numerador == 5);
+    cn_matriz__destroy(&mtx);
+    cn_matriz__destroy(&res);
+}
+
 void menor_principal() {
     struct cn_matriz mtx;
     struct cn_matriz res;
@@ -113,4 +131,5 @@ int main() {
     determinante();
     simetria();
     menor_principal();
+    transposta();
 }
