@@ -16,7 +16,7 @@ void teste_de_algum_slide() {
     cn_matriz__set(&mtx, 0, 2, -4);
     cn_matriz__set(&mtx, 1, 2, 4);
     cn_matriz__set(&mtx, 2, 2, 9);
-    assert(cn_cholesky__check(&mtx));
+    assert(cn_cholesky__check(&mtx) == SUCESS);
     struct cn_matriz res;
     assert(cn_cholesky__calc(&mtx, &res) == SUCESS);
     cn_matriz__prettyprint(&mtx);
