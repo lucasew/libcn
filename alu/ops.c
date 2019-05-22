@@ -5,9 +5,9 @@
 #include "../matriz/template.c"
 #include "./ops.c"
 
-int cn_lu__check(struct cn_matriz *this) {
+char *cn_lu__check(struct cn_matriz *this) {
     if (!cn_matriz__is_quadrada(this))
-        return ERROR;
+        return "Matriz não é quadrada";
     int i;
     struct cn_matriz menor_principal;
     for (i = 1; i < this->tam_i; i++) {
@@ -16,20 +16,22 @@ int cn_lu__check(struct cn_matriz *this) {
         int detres = cn_matriz__get_determinante(&menor_principal, &res);
         cn_matriz__destroy(&menor_principal);
         if (detres == ERROR)
-            return ERROR;
+            return "A função de determinante retornou um erro";
         if (res == 0.0)
-            return ERROR;
+            return "Determinante == 0";
     }
     return SUCESS;
 }
 
-int cn_lu__calc(
+char *cn_lu__calc(
         struct cn_matriz *a,
         struct cn_matriz *l,
         struct cn_matriz *u
         ) {
-    if (cn_lu__check(a) == ERROR)
-        return ERROR;
+    char *res = cn_lu__check(a);
+    if (res != SUCESS) {
+        return res;
+    }
     int n = a->tam_i;
     int i, j, k;
     cn_matriz__copy(a, u);
@@ -43,7 +45,6 @@ int cn_lu__calc(
             u->vet[i*n + j] = 0;
         }
     }
-
     return SUCESS;
 }
 

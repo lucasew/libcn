@@ -4,29 +4,30 @@
 #include "../matriz/struct.c"
 #include "../status.h"
 #include <math.h>
-int cn_cholesky__check(struct cn_matriz *this) {
+char *cn_cholesky__check(struct cn_matriz *this) {
     if (!cn_matriz__is_quadrada(this))
-        return ERROR;
+        return "Matriz não é quadrada";
     if (!cn_matriz__is_simetrica(this))
-        return ERROR;
+        return "Matriz não é simétrica";
     int i;
     for (i = 1; i < this->tam_i; i++) {
         double det;
         struct cn_matriz menores;
         if (cn_matriz__get_menor_principal(this, &menores, i) == ERROR)
-            return ERROR;
+            return "Erro ao obter menor principal";
         if (cn_matriz__get_determinante(&menores, &det) == ERROR)
-            return ERROR;
+            return "Erro ao obter determinante";
         cn_matriz__destroy(&menores);
         if (det <= 0)
-            return ERROR;
+            return "Determinante do menor principal <= 0";
     }
     return SUCESS;
 }
 
-int cn_cholesky__calc(struct cn_matriz *this, struct cn_matriz *res) {
-    if (cn_cholesky__check(this) == ERROR)
-        return ERROR;
+char *cn_cholesky__calc(struct cn_matriz *this, struct cn_matriz *res) {
+    char *check_res = cn_cholesky__check(this);
+    if (check_res)
+        return check_res;
     cn_matriz__init(res, this->tam_i, this->tam_j);
 
     int i, j, k;
