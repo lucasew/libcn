@@ -21,7 +21,7 @@ int teve_erro = 0;
 void cn_main__print_help() {
     printf("Como usar o programa: \n");
     printf("./programa comando tam_i tam_j valores...\n");
-    printf("    Comandos disponíveis: lu, print, cholesky.\n");
+    printf("    Comandos disponíveis: lu, print, cholesky, determinante.\n");
     printf("    Apenas a primeira letra é necessária, as outras são opcionais!\n");
 }
 
