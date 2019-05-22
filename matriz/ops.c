@@ -6,6 +6,20 @@
 #include "./struct.c"
 
 int
+cn_matriz__copy(
+        struct cn_matriz *from,
+        struct cn_matriz *to
+) {
+    if (cn_matriz__init(to, from->tam_i, from->tam_j) == ERROR)
+        return ERROR;
+    int i;
+    for (i = 0; i < from->tam_i*from->tam_j; i++) {
+        to->vet[i] = from->vet[i];
+    }
+    return SUCESS;
+}
+
+int
 cn_matriz__transpose(
         struct cn_matriz *from, 
         struct cn_matriz *to

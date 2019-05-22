@@ -6,6 +6,7 @@
 #include "./matriz/ops.c"
 #include "./matriz/struct.c"
 #include "./cholesky/ops.c"
+#include "./alu/ops.c"
 #include "./status.h"
 
 #define THROW(cond, errmsg) \
@@ -35,8 +36,8 @@ int cn_main__parse_matriz(struct cn_matriz *mtx, int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-    for (int i = 0; i < argc; i++)
-        printf("ARGV: %s\n", argv[i]);
+    /* for (int i = 0; i < argc; i++) */
+    /*     printf("ARGV: %s\n", argv[i]); */
     struct cn_matriz mtx, res;
     mtx.vet = NULL;
     THROW(argc < 2, "ERRO: Argumentos insuficientes");
@@ -48,6 +49,19 @@ int main(int argc, char **argv) {
         cn_matriz__prettyprint(&res);
         cn_matriz__destroy(&mtx);
         cn_matriz__destroy(&res);
+    }
+    if (!strncmp(op, "lu", 1)) {
+        struct cn_matriz l;
+        struct cn_matriz u;
+        int res = cn_lu__calc(&mtx, &l, &u) == ERROR;
+        THROW(res, "Erro ao calcular LU: Critérios podem não ter sido satisfeitos\n");
+        printf("L:\n");
+        cn_matriz__prettyprint(&l);
+        printf("U:\n");
+        cn_matriz__prettyprint(&u);
+        cn_matriz__destroy(&mtx);
+        cn_matriz__destroy(&l);
+        cn_matriz__destroy(&u);
     }
     if (!strncmp(op, "print", 1)) {
         cn_matriz__prettyprint(&mtx);

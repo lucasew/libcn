@@ -5,7 +5,7 @@
 #include "./ops.c"
 #include "../status.h"
 
-int cn_matriz__init_identity(int order, struct cn_matriz *this) {
+int cn_matriz__init_identity(struct cn_matriz *this, int order) {
     if (cn_matriz__init(this, order, order) == ERROR)
         return ERROR;
     int i;

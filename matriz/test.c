@@ -117,7 +117,7 @@ void determinante() {
 int main() {
     struct cn_matriz ma;
     struct cn_matriz mb;
-    cn_matriz__init_identity(2, &ma);
+    cn_matriz__init_identity(&ma,2);
     cn_matriz__init(&mb, 2, 2);
     cn_matriz__set(&mb, 0, 0, 2);
     cn_matriz__set(&mb, 1, 1, 2);
