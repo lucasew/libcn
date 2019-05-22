@@ -9,11 +9,21 @@
 #include "./alu/ops.c"
 #include "./status.h"
 
+int teve_erro = 0;
+
 #define THROW(cond, errmsg) \
     if (cond) { \
         printf("%s\n", errmsg); \
+        teve_erro = 1; \
+        cn_main__print_help(); \
         return ERROR; \
     }
+void cn_main__print_help() {
+    printf("Como usar o programa: \n");
+    printf("./programa comando tam_i tam_j valores...\n");
+    printf("    Comandos disponíveis: lu, print, cholesky.\n");
+    printf("    Apenas a primeira letra é necessária, as outras são opcionais!\n");
+}
 
 int cn_main__parse_matriz(struct cn_matriz *mtx, int argc, char **argv) {
     THROW(argc < 2, "ERRO: Parâmetros insuficientes. Esperado tam_i tam_j valores...");
@@ -41,12 +51,15 @@ int main(int argc, char **argv) {
     struct cn_matriz mtx, res;
     mtx.vet = NULL;
     THROW(argc < 2, "ERRO: Argumentos insuficientes");
+    if (teve_erro)
+        return ERROR;
     char *op = argv[1];
-    printf("%s\n", op);
+    /* printf("%s\n", op); */
     cn_main__parse_matriz(&mtx, argc - 2, argv + 2);
     if (!strncmp(op, "cholesky", 1)) {
         THROW(cn_cholesky__calc(&mtx, &res) == ERROR, "Erro ao calcular cholesky: Critérios podem não ter sido satisfeitos\n");
-        cn_matriz__prettyprint(&res);
+        if (!teve_erro)
+            cn_matriz__prettyprint(&res);
         cn_matriz__destroy(&mtx);
         cn_matriz__destroy(&res);
     }
@@ -55,16 +68,19 @@ int main(int argc, char **argv) {
         struct cn_matriz u;
         int res = cn_lu__calc(&mtx, &l, &u) == ERROR;
         THROW(res, "Erro ao calcular LU: Critérios podem não ter sido satisfeitos\n");
-        printf("L:\n");
-        cn_matriz__prettyprint(&l);
-        printf("U:\n");
-        cn_matriz__prettyprint(&u);
+        if (!teve_erro) {
+            printf("L:\n");
+            cn_matriz__prettyprint(&l);
+            printf("U:\n");
+            cn_matriz__prettyprint(&u);
+        }
         cn_matriz__destroy(&mtx);
         cn_matriz__destroy(&l);
         cn_matriz__destroy(&u);
     }
     if (!strncmp(op, "print", 1)) {
-        cn_matriz__prettyprint(&mtx);
+        if (!teve_erro)
+            cn_matriz__prettyprint(&mtx);
         cn_matriz__destroy(&mtx);
     }
     return SUCESS;
