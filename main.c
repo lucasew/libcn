@@ -29,7 +29,7 @@ int cn_main__parse_matriz(struct cn_matriz *mtx, int argc, char **argv) {
     THROW(argc < 2, "ERRO: Parâmetros insuficientes. Esperado tam_i tam_j valores...");
     int tam_i = atoi(argv[0]);
     int tam_j = atoi(argv[1]);
-    /* THROW(!tam_i && !tam_j, "ERRO: Valores inválidos fornecidos para tamanho."); */
+    THROW(tam_i < 1 && tam_j < 1, "ERRO: Valores inválidos fornecidos para tamanho.");
     argc -= 2;
     argv += 2;
     cn_matriz__init(mtx, tam_i, tam_j);
