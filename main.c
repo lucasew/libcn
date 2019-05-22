@@ -81,6 +81,14 @@ int main(int argc, char **argv) {
         }
         cn_matriz__destroy(&mtx);
     }
+    if (!strncmp(op, "determinante", 1)) {
+        double resultado;
+        THROW(cn_matriz__get_determinante(&mtx,  &resultado), "Erro ao calcular determinante.");
+        if(!teve_erro) {
+            printf("Resultado: %lf\n", resultado);
+        }
+        return teve_erro;
+    }
     if (!strncmp(op, "print", 1)) {
         if (!teve_erro)
             cn_matriz__prettyprint(&mtx);
